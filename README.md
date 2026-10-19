@@ -60,7 +60,7 @@ This is bad because:
 - **Redeploy** If you change the password you need to change it in source code and then rebuild, redeploy.
 
 ### 🚑 What was done
-- Removed the hardcded admin password from `application.properties`. So password is now environmental variable.
+- Removed the hardcoded admin password from `application.properties`. So password is now environmental variable.
 - Added `.env.example` with variable only name.
 - Added `.env` to `.gitignore` and `.dockerignore`
 
@@ -71,4 +71,4 @@ Build and run with Docker:
 ```sh
 docker build -t secret-case .
 docker run -p 8080:8080 -e ADMIN_PASSWORD='nice_long_random_password' secret-case
-``
+```
