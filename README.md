@@ -44,3 +44,31 @@ There is no single "right" answer. We want to see how you think.
 ## Time Expectation
 
 This should not take long. Don't over-engineer it. A clean, simple fix with clear reasoning is preferred over a complex one. You can hand-wave external services that might be part of your ideal design.
+
+
+<h1 align="center">🚨 Emergency solution for VERY "secret" password </h1>
+
+ > The password was in the repo like a spare key under the doormat. 
+ > Now app asks for it at run time and Git never sees it.
+
+## The problem
+The admin password was hardcoded in the souce code `application.properties`.
+This is bad because:
+- **Compromised password.** Delete password from file but it's still in Git's history.
+- **Everyone knows.** It can be used by anyone in prod, dev, test environment.
+- **It's inside Docker image.** If you get docker image and unzip the jar you can see it.
+- **Redeploy** If you change the password you need to change it in source code and then rebuild, redeploy.
+
+### 🚑 What was done
+- Removed the hardcded admin password from `application.properties`. So password is now environmental variable.
+- Added `.env.example` with variable only name.
+- Added `.env` to `.gitignore` and `.dockerignore`
+
+## Run the Application
+
+Build and run with Docker:
+
+```sh
+docker build -t secret-case .
+docker run -p 8080:8080 -e ADMIN_PASSWORD='nice_long_random_password' secret-case
+``
