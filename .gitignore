@@ -11,3 +11,4 @@ target/
 .vscode/
 *.internal
 *.internal.md
+.env
