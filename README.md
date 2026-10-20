@@ -46,7 +46,7 @@ There is no single "right" answer. We want to see how you think.
 This should not take long. Don't over-engineer it. A clean, simple fix with clear reasoning is preferred over a complex one. You can hand-wave external services that might be part of your ideal design.
 
 
-<h1 align="center">🚨 Emergency solution for VERY "secret" password </h1>
+<h1 align="center"> 🚨 Emergency solution for VERY "secret" password </h1>
 
  > The password was in the repo like a spare key under the doormat. 
  > Now app asks for it at run time and Git never sees it.
@@ -72,3 +72,18 @@ Build and run with Docker:
 docker build -t secret-case .
 docker run -p 8080:8080 -e ADMIN_PASSWORD='nice_long_random_password' secret-case
 ```
+
+<h1 align="center"> 🚨 Solved other problems </h1>
+
+> curl -i -H 'Authorization: Basic !!!' http://localhost:8080 returned HTTP/1.1 500  - > now  returns 401
+
+> Added UTF-8 so the login text is decoded as UTF-8 and stay the same on all computers.
+
+> Added basic test for login
+```sh
+docker run --rm -v "$PWD":/app -w /app maven:3.9.9-eclipse-temurin-21 mvn test
+```
+
+<h1 align="center"> Other things to change in future</h1>
+
+> Replace basic login with Spring Security as it handless most problems on its own.
