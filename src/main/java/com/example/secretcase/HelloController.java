@@ -23,9 +23,17 @@ public class HelloController {
                     .body("Unauthorized");
         }
 
-        String decoded = new String(Base64.getDecoder().decode(authHeader.substring(6)));
-        String[] parts = decoded.split(":", 2);
+        String decoded;
+        try{
+            byte[] decodedBytes = Base64.getDecoder().decode(authHeader.substring(6));
+            decoded = new String(decodedBytes, StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .header("WWW-Authenticate", "Basic realm=\"secret-case\"")
+            .body("Invalid credentials");
+        }
 
+        String[] parts = decoded.split(":", 2);
         if (parts.length == 2 && "admin".equals(parts[0]) && adminPassword.equals(parts[1])) {
             return ResponseEntity.ok("Hello, welcome to the secret case!");
         }
