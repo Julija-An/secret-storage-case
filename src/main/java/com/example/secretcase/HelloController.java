@@ -30,9 +30,7 @@ public class HelloController {
             byte[] decodedBytes = Base64.getDecoder().decode(authHeader.substring(6));
             decoded = new String(decodedBytes, StandardCharsets.UTF_8);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-            .header("WWW-Authenticate", "Basic realm=\"secret-case\"")
-            .body("Invalid credentials");
+            return unauthorizedResponse();
         }
 
         String[] parts = decoded.split(":", 2);
@@ -40,6 +38,10 @@ public class HelloController {
             return ResponseEntity.ok("Hello, welcome to the secret case!");
         }
 
+        return unauthorizedResponse();
+    }
+
+    private ResponseEntity<String> unauthorizedResponse(){ 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header("WWW-Authenticate", "Basic realm=\"secret-case\"")
                 .body("Invalid credentials");
